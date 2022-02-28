@@ -6,6 +6,7 @@ La création des avions est aujourd'hui gérée par les fonctions `TowerSimulati
 Chaque avion créé est ensuite placé dans les files `GL::display_queue` et `GL::move_queue`.
 
 Si à un moment quelconque du programme, vous souhaitiez accéder à l'avion ayant le numéro de vol "AF1250", que devriez-vous faire ?
+> chercher dans la move_queue ou dans la display_queue
 
 ---
 
@@ -20,6 +21,8 @@ Vous avez 2 choix possibles :
 - donner ce rôle à une classe existante.
 
 Réfléchissez aux pour et contre de chacune de ces options.
+> AircraftManager -> une classe = une responssabilité mais force à trainer un objet de plus dans tous le programme  
+> Dans une classe existante -> on a déjà des classes présente dans tous le programme mais on regroupe plusieurs responssabilitées dans une seul classe
 
 Pour le restant de l'exercice, vous partirez sur le premier choix.
 
@@ -30,9 +33,16 @@ Il serait donc bon de savoir qui est censé détruire les avions du programme, a
 
 Répondez aux questions suivantes :
 1. Qui est responsable de détruire les avions du programme ? (si vous ne trouvez pas, faites/continuez la question 4 dans TASK_0)
+> opengl_interface.cpp dans la move_queue
+
 2. Quelles autres structures contiennent une référence sur un avion au moment où il doit être détruit ?
+> GL::display_queue et reserved_terminals
+
 3. Comment fait-on pour supprimer la référence sur un avion qui va être détruit dans ces structures ?
+> On doit faire une recherche et supprimer manuellement
+
 4. Pourquoi n'est-il pas très judicieux d'essayer d'appliquer la même chose pour votre `AircraftManager` ?
+> Parce qu'on veut que AircraftManager controlle la durée de vie des avions
 
 Pour simplifier le problème, vous allez déplacer l'ownership des avions dans la classe `AircraftManager`.
 Vous allez également faire en sorte que ce soit cette classe qui s'occupe de déplacer les avions, et non plus la fonction `timer`.
@@ -41,13 +51,17 @@ Vous allez également faire en sorte que ce soit cette classe qui s'occupe de d�
 
 Ajoutez un attribut `aircrafts` dans le gestionnaire d'avions.
 Choisissez un type qui met bien en avant le fait que `AircraftManager` est propriétaire des avions.
+> std::unique_ptr<Aircraft> 
 
 Ajoutez un nouvel attribut `aircraft_manager` dans la classe `TowerSimulation`.
 
 Faites ce qu'il faut pour que le `AircraftManager` puisse appartenir à la liste `move_queue`.
 Ajoutez la fonction appropriée dans `AircraftManager` pour demander de bouger (`move`) les avions.
 Supprimez les ajouts d'`Aircraft` dans la `move_queue`. En effet, ce n'est plus `timer` qui est responsable de déplacer les avions mais l'`AircraftManager`.
-Faites le nécessaire pour que le gestionnaire supprime les avions après qu'ils soient partis de l'aéroport.
+
+> On fait donc en sorte que `AircraftManager` soit un DynamicObject pour qu'il puisse bouger par la suite les avions.
+> On peut supprimer le retour de move de DynamicObject puisqu'elle n'est utile que pour les `Aircraft`
+> qui auront donc une autre fonction de déplacement (la même qu'avant mais sans dépendre de DynamicObject)
 
 Enfin, faites ce qu'il faut pour que `create_aircraft` donne l'avion qu'elle crée au gestionnaire.
 Testez que le programme fonctionne toujours.
