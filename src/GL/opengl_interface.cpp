@@ -44,7 +44,15 @@ void change_zoom(const float factor)
     glOrtho(-zoom, zoom, -zoom, zoom, 0.0f, 1.0f); // left, right, bottom, top, near, far
     handle_error("Zoom");
 }
-
+void change_framerate(int amount) {
+    if (old_framerate != 0) {
+        return;
+    }
+    const int new_ticks = (int)ticks_per_sec + amount;
+    if (new_ticks >= 10 && new_ticks <= 120) {
+        ticks_per_sec = new_ticks;
+    }
+}
 void reshape_window(int w, int h)
 {
     glViewport(0, 0, w, h);
@@ -73,12 +81,17 @@ void display(void)
 
 void timer(const int step)
 {
-    for (auto& item : move_queue)
-    {
-        item->move();
+    if (ticks_per_sec != 0) {
+        for (const auto& dynamic : move_queue) {
+            dynamic->move();
+        }
+        glutPostRedisplay();
+        oldTime = std::chrono::system_clock::now();
+        glutTimerFunc(1000u / ticks_per_sec, timer, step + 1);
+    } else {
+        oldTime = std::chrono::system_clock::now();
+        glutTimerFunc(0, timer, step + 1);
     }
-    glutPostRedisplay();
-    glutTimerFunc(1000u / ticks_per_sec, timer, step + 1);
 }
 
 void init_gl(int argc, char** argv, const char* title)
@@ -104,8 +117,16 @@ void init_gl(int argc, char** argv, const char* title)
 
 void loop()
 {
+   // oldTime = std::chrono::system_clock::now();
     glutTimerFunc(100, timer, 0);
     glutMainLoop();
+}
+
+void pause() {
+    auto new_framerate = old_framerate;
+    old_framerate = ticks_per_sec;
+    ticks_per_sec = new_framerate;
+    oldTime = std::chrono::system_clock::now();
 }
 
 void exit_loop()
