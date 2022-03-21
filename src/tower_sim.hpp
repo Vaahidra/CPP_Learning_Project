@@ -12,7 +12,10 @@ private:
     bool help        = false;
     Airport* airport = nullptr;
     std::unique_ptr<AircraftManager> aircraft_manager;
+<<<<<<< HEAD
     std::unique_ptr<AircraftFactory> aircraft_factory;
+=======
+>>>>>>> 0cd66b41b9545d4cb0625c02ef75b6aab2b2a223
 
     std::string data_path;
     void create_aircraft(const AircraftType& type) const;

@@ -33,6 +33,7 @@ void AircraftManager::move(const double dt)
     aircrafts.erase(std::remove_if(aircrafts.begin(), aircrafts.end(),
                   [this, dt](const std::unique_ptr<Aircraft>& a){return move_aircraft(dt, *a);}), aircrafts.end());
 }
+<<<<<<< HEAD
 
 unsigned AircraftManager::count_aircraft_on_airline(const std::string_view& line)
 {
@@ -40,6 +41,8 @@ unsigned AircraftManager::count_aircraft_on_airline(const std::string_view& line
         [line](const std::unique_ptr<Aircraft>& a){return (a->get_flight_num().rfind(line, 0) == 0);});
 }
 
+=======
+>>>>>>> 0cd66b41b9545d4cb0625c02ef75b6aab2b2a223
 void AircraftManager::add_aircraft(std::unique_ptr<Aircraft> aircraft)
 {
     assert(aircraft != nullptr);
