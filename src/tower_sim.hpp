@@ -3,11 +3,15 @@
 class Airport;
 struct AircraftType;
 
+#include "airport.hpp"
+#include "AircraftManager.hpp"
+
 class TowerSimulation
 {
 private:
     bool help        = false;
     Airport* airport = nullptr;
+    std::unique_ptr<AircraftManager> aircraft_manager;
 
     TowerSimulation(const TowerSimulation&) = delete;
     TowerSimulation& operator=(const TowerSimulation&) = delete;

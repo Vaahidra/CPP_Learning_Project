@@ -99,6 +99,8 @@ Vous devriez du coup pouvoir supprimer les variables globales `airlines` et `air
 Il est rare, mais possible, que deux avions soient créés avec le même numéro de vol.
 Ajoutez un conteneur dans votre classe `AircraftFactory` contenant tous les numéros de vol déjà utilisés.
 Faites maintenant en sorte qu'il ne soit plus possible de créer deux fois un avion avec le même numéro de vol.
+> Ajout d'un unordered_set dans Aircraft_Factory stoquant les lignes déjà prises.
+
 
 ### C - Data-driven AircraftType (optionnel)
 
@@ -107,14 +109,20 @@ On aimerait pouvoir charger les paramètres des avions depuis un fichier.
 Définissez un format de fichier qui contiendrait les informations de chaque `AircraftType` disponible dans le programme.\
 Ajoutez une fonction `AircraftFactory::LoadTypes(const MediaPath&)` permettant de charger ce fichier.
 Les anciens `AircraftTypes` sont supprimés.
+> Le format du fichier est :
+> ground_speed air_speed acceleration image  
+> (Attention ça devient `ground_speed air_speed acceleration fuel_consumption max_fuel image` à la fin)
 
 Modifiez ensuite le `main`, afin de permettre à l'utilisateur de passer le chemin de ce fichier via les paramètres du programme.
 S'il ne le fait pas, on utilise la liste de type par défaut.
+> Le seul fichier existant pour l'instant est 'media/data_files/default' qui contient les valeurs paar défaut.
+> Le fichier peut être saisi au lancement du programme dans les paramètres du fichier.
+> Si le fichier n'existe pas ou si aucun fichier n'est saisi, les valeurs par défaut sont prises. 
+> Si le fichier ne correspond pas à ce qui est attendu un erreur est levée.
 
 Si vous voulez de nouveaux sprites, vous pouvez en trouver sur [cette page](http://www.as-st.com/ttd/planes/planes.html)
 (un peu de retouche par GIMP est necessaire)
-
----
+> Il n'y a pas de nouveaux sprites.
 
 ## Objectif 3 - Pool de textures (optionnel)
 
