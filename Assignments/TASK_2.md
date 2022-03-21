@@ -6,6 +6,7 @@
 
 `TowerSimulation::display_help()` est chargé de l'affichage des touches disponibles.
 Dans sa boucle, remplacez `const auto& ks_pair` par un structured binding adapté.
+> On peut utiliser `const auto& [key, action]` 
 
 ### B - Algorithmes divers
 
@@ -18,6 +19,8 @@ Remplacez votre boucle avec un appel à `std::remove_if`.
 2. Pour des raisons de statistiques, on aimerait bien être capable de compter tous les avions de chaque airline.
 A cette fin, rajoutez des callbacks sur les touches `0`..`7` de manière à ce que le nombre d'avions appartenant à `airlines[x]` soit affiché en appuyant sur `x`.
 Rendez-vous compte de quelle classe peut acquérir cet information. Utilisez la bonne fonction de `<algorithm>` pour obtenir le résultat.
+> La classe pouvant compter les avions appartenant à une ligne est AircraftManager. J'utilise std::count_if pour compter
+> les avions dont la ligne commence par le code de l'airline
 
 ### C - Relooking de Point3D
 
@@ -27,8 +30,11 @@ Remplacez le tableau `Point3D::values` par un `std::array` et puis,
 remplacez le code des fonctions suivantes en utilisant des fonctions de `<algorithm>` / `<numeric>`:
 
 1. `Point3D::operator*=(const float scalar)`
+> Utilisation de std::transform(src_start, src_end, dest_start, fnct)
 2. `Point3D::operator+=(const Point3D& other)` et `Point3D::operator-=(const Point3D& other)`
+> Utilisation de std::transform(src1_start, src1_end, src2_start, dest_start, fnct)
 3. `Point3D::length() const`
+> Utilisation de std::accumulate(start, end, initial_value, fnct)
 
 ---
 

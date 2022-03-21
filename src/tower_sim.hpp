@@ -12,10 +12,9 @@ private:
     bool help        = false;
     Airport* airport = nullptr;
     std::unique_ptr<AircraftManager> aircraft_manager;
+    std::unique_ptr<AircraftFactory> aircraft_factory;
 
-    TowerSimulation(const TowerSimulation&) = delete;
-    TowerSimulation& operator=(const TowerSimulation&) = delete;
-
+    std::string data_path;
     void create_aircraft(const AircraftType& type) const;
     void create_random_aircraft() const;
 
@@ -27,6 +26,7 @@ private:
 public:
     TowerSimulation(int argc, char** argv);
     ~TowerSimulation();
-
+    TowerSimulation(const TowerSimulation&) = delete;
+    TowerSimulation& operator=(const TowerSimulation&) = delete;
     void launch();
 };

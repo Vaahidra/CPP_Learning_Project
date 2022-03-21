@@ -13,14 +13,15 @@
 
 using namespace std::string_literals;
 
-const std::string airlines[8] = { "AF", "LH", "EY", "DL", "KL", "BA", "AY", "EY" };
 
 TowerSimulation::TowerSimulation(int argc, char** argv) :
     help { (argc > 1) && (std::string { argv[1] } == "--help"s || std::string { argv[1] } == "-h"s) }
 {
     MediaPath::initialize(argv[0]);
+    data_path = help && argc > 2 ? argv[2] : argc > 1 ? argv[1] : "";
     std::srand(static_cast<unsigned int>(std::time(nullptr)));
     GL::init_gl(argc, argv, "Airport Tower Simulation");
+    aircraft_manager = std::make_unique<AircraftManager>();
 
     create_keystrokes();
 }
@@ -44,9 +45,10 @@ void TowerSimulation::create_aircraft(const AircraftType& type) const
     GL::move_queue.emplace(aircraft);
 }
 
-void TowerSimulation::create_random_aircraft() const
+void TowerSimulation::create_random_aircraft()
 {
-    create_aircraft(*(aircraft_types[rand() % 3]));
+    assert(airport);
+    aircraft_manager->add_aircraft(aircraft_factory->create_aircraft(airport->get_tower()));
 }
 
 void TowerSimulation::create_keystrokes() const
@@ -58,6 +60,9 @@ void TowerSimulation::create_keystrokes() const
     GL::keystrokes.emplace('-', []() { GL::change_zoom(1.05f); });
     GL::keystrokes.emplace('p', []() { GL::pause(); });
     GL::keystrokes.emplace('f', []() { GL::toggle_fullscreen(); });
+    for (auto i = 0; i < 8; i++) {
+        GL::keystrokes.emplace('0'+i, [this, i]() { display_airline(i); });
+    }
 }
 
 void TowerSimulation::display_help() const
@@ -83,7 +88,8 @@ void TowerSimulation::init_airport()
 }
 
 void TowerSimulation::launch()
-{
+{   
+    assert(airport == nullptr && aircraft_factory == nullptr);
     if (help)
     {
         display_help();
@@ -92,6 +98,7 @@ void TowerSimulation::launch()
 
     init_airport();
     init_aircraft_types();
+    aircraft_factory = data_path.empty() ? std::make_unique<AircraftFactory>() : AircraftFactory::LoadTypes(MediaPath {data_path});
 
     GL::loop();
 }
