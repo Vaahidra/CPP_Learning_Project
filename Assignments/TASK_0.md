@@ -90,10 +90,8 @@ Ajoutez deux nouveaux inputs au programme permettant d'augmenter ou de diminuer 
 Essayez maintenant de mettre en pause le programme en manipulant ce framerate. Que se passe-t-il ?\
 Ajoutez une nouvelle fonctionnalité au programme pour mettre le programme en pause, et qui ne passe pas par le framerate.
 > GL::tick_per_frame iniialisé avec config::DEFAULT_TICKS_PER_SEC.
-> ajout de 2 inputs : 'i' pour incrémenter de 1 le framerate et 'd' pour décrémenter de 1 le framerate.
-> Si tick_per_sec passe à 0, dans la fonction GL::timer il y a une division par 0  
-> Pour ajouter la pause, j'ajoute encore un input 'p' permettant de passer entre le framerate = 0 et 
-> celui qu'il y avait avant la pause (ajout d'une variable statique)
+> ajout de 2 inputs : 'a' pour incrémenter de 1 le framerate et 'z' pour décrémenter de 1 le framerate.
+> Pour le pause on crée un boolean dans opengl_interface qu'on va utiliser dans la fonction GL::timer, on fait un move du aircraft que si "is_paused vaut false"
 
 3) Identifiez quelle variable contrôle le temps de débarquement des avions et doublez-le.
 > config::SERVICE_CYCLES -> 40u
