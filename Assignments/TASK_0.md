@@ -96,9 +96,8 @@ Ajoutez une nouvelle fonctionnalité au programme pour mettre le programme en pa
 3) Identifiez quelle variable contrôle le temps de débarquement des avions et doublez-le.
 > config::SERVICE_CYCLES -> 40u
 
-4) Lorsqu'un avion a décollé, il réattérit peu de temps après.
-Faites en sorte qu'à la place, il soit retiré du programme.\
-Indices :\
+4) Lorsqu'un avion a décollé, il réattérit peu de temps après. Assurez-vous qu'à la place, il soit supprimé de la move_queue.
+Pour tester, il suffit de dézoomer et de vérifier que les avions suffisament éloignés ne bougent plus. Indices :
 A quel endroit pouvez-vous savoir que l'avion doit être supprimé ? -> Aircraft::move\
 Pourquoi n'est-il pas sûr de procéder au retrait de l'avion dans cette fonction ? -> parce que le seul qui own les avions est GL::move_queue\
 A quel endroit de la callstack pourriez-vous le faire à la place ? -> GL::timer\
