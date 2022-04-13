@@ -83,17 +83,17 @@ Expliquez les intérêts de ce choix.
 1) Déterminez à quel endroit du code sont définies les vitesses maximales et accélération de chaque avion.
 Le Concorde est censé pouvoir voler plus vite que les autres avions.
 Modifiez le programme pour tenir compte de cela.
-> AircraftTypes (l.34) changer le 2eme paramètre de .05f à .2f
+> AircraftTypes (l.34) changer le 2eme paramètre de .05f à .1f
 
 2) Identifiez quelle variable contrôle le framerate de la simulation.
 Ajoutez deux nouveaux inputs au programme permettant d'augmenter ou de diminuer cette valeur.
 Essayez maintenant de mettre en pause le programme en manipulant ce framerate. Que se passe-t-il ?\
 Ajoutez une nouvelle fonctionnalité au programme pour mettre le programme en pause, et qui ne passe pas par le framerate.
 > GL::tick_per_frame iniialisé avec config::DEFAULT_TICKS_PER_SEC.
-> ajout de 2 inputs : 'i' pour incrémenter de 1 le framerate et 'd' pour décrémenter de 1 le framerate.
+> ajout de 2 inputs : 'a' pour incrémenter de 1 le framerate et 'z' pour décrémenter de 1 le framerate.
 > Si tick_per_sec passe à 0, dans la fonction GL::timer il y a une division par 0  
-> Pour ajouter la pause, j'ajoute encore un input 'p' permettant de passer entre le framerate = 0 et 
-> celui qu'il y avait avant la pause (ajout d'une variable statique)
+> Pour ajouter la pause, j'ai rajouter un bool is_paused qui vaut faux par défault, si on appui sur la touche 'p' 
+> on modifie la valeur du bool a vrai, ce bool est utilisé dans GL::timer
 
 3) Identifiez quelle variable contrôle le temps de débarquement des avions et doublez-le.
 > config::SERVICE_CYCLES -> 40u
@@ -118,7 +118,7 @@ Cette information est actuellement enregistrée dans un `std::vector<std::pair<c
 Cela fait que la recherche du terminal associé à un avion est réalisée en temps linéaire, par rapport au nombre total de terminaux.
 Cela n'est pas grave tant que ce nombre est petit, mais pour préparer l'avenir, on aimerait bien remplacer le vector par un conteneur qui garantira des opérations efficaces, même s'il y a beaucoup de terminaux.\
 Modifiez le code afin d'utiliser un conteneur STL plus adapté. Normalement, à la fin, la fonction `find_craft_and_terminal(const Aicraft&)` ne devrait plus être nécessaire.
-> Utiliser une unordered_map
+> Utiliser une map
 
 ## D- Théorie
 
@@ -146,13 +146,6 @@ Cependant, si le programme se met à ramer et que la callback de glutTimerFunc e
 Passez ensuite cette valeur à la fonction `move` des `DynamicObject`, et utilisez-la pour calculer les nouvelles positions de chaque avion.
 Vérifiez maintenant en exécutant le programme que, lorsque augmentez le framerate du programme, vous n'augmentez pas la vitesse de la simulation.
 
-> Pour faire ça j'ai donc ajouté une variable dans le .hpp permettant de se souvenir de la valeur précédente du timer.
-> Ensuite dans timer je calcule la différence entre l'instant précédent et l'instant actuel que je multiplie par une constante (~1/60)
-> pour obtenir une simulation fluide.
-> Après je passe cette valeur au fonctions move qui vont donc l'utiliser pour : déplacer l'avion et s'occuper de l'avions dans un terminal
-
 Ajoutez ensuite deux nouveaux inputs permettant d'accélérer ou de ralentir la simulation.
-
-> 'o' : permet d'accelerer et 'l' permet de ralentir la vitesse de simulation.
 
 

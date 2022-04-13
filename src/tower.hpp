@@ -5,7 +5,7 @@
 #include <algorithm>
 #include <unordered_map>
 #include <utility>
-#include <vector>
+#include <map>
 
 class Airport;
 class Aircraft;
@@ -14,8 +14,9 @@ class Terminal;
 class Tower
 {
 private:
-    using AircraftToTerminal      = std::vector<std::pair<const Aircraft*, size_t>>;
-    using AircraftAndTerminalIter = AircraftToTerminal::iterator;
+    //task_0 C-6
+    using AircraftToTerminal = std::map<const Aircraft*, size_t>;
+
 
     Airport& airport;
     // aircrafts may reserve a terminal
@@ -24,12 +25,7 @@ private:
 
     WaypointQueue get_circle() const;
 
-    AircraftAndTerminalIter find_craft_and_terminal(const Aircraft& aircraft)
-    {
-        return std::find_if(reserved_terminals.begin(), reserved_terminals.end(),
-                            [&aircraft](const auto& x) { return x.first == &aircraft; });
-    }
-
+    
 public:
     Tower(Airport& airport_) : airport { airport_ } {}
 

@@ -71,11 +71,25 @@ void display(void)
     glutSwapBuffers();
 }
 
+
 void timer(const int step)
 {
-    for (auto& item : move_queue)
+    if (!is_paused)
     {
-        item->move();
+        
+        for (auto it = move_queue.begin(); it != move_queue.end();)
+        {
+            auto* dynamic_obj = *it;
+            if (dynamic_obj->move())
+            {
+                ++it;
+            }
+            else
+            {
+                it = move_queue.erase(it); // suprime
+                delete dynamic_obj;        // free en C
+            }
+        }
     }
     glutPostRedisplay();
     glutTimerFunc(1000u / ticks_per_sec, timer, step + 1);
@@ -111,6 +125,27 @@ void loop()
 void exit_loop()
 {
     glutLeaveMainLoop();
+}
+
+void increaseTick()
+{
+    ticks_per_sec++;
+}
+void decreaseTick()
+{
+    if (ticks_per_sec == 1)
+    {
+        ticks_per_sec = 1;
+    }
+    else
+    {
+        ticks_per_sec--;
+    }
+}
+
+void pause()
+{
+    is_paused = !is_paused;
 }
 
 } // namespace GL
