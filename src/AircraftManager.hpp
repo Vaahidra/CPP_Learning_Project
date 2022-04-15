@@ -1,5 +1,10 @@
+#pragma once
+
 #include "GL/dynamic_object.hpp"
 #include "aircraft.hpp"
+
+#include <memory>
+#include <vector>
 
 class AircraftManager : public GL::DynamicObject
 {
