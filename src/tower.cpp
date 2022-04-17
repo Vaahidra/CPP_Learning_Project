@@ -90,3 +90,11 @@ WaypointQueue Tower::instruction_aux(Aircraft& aircraft) {
     reserved_terminals.emplace(&aircraft, vp.second);                 // Otherwise -> reserve the terminal found
     return vp.first;                                                  // Return the path to the terminal
 }
+void Tower::on_aircraft_crash(const Aircraft& aircraft) {
+    const auto it = reserved_terminals.find(&aircraft);
+    if (it == reserved_terminals.end()) {
+        return;
+    }
+    reserved_terminals.erase(it);
+    airport.on_aircraft_crash(aircraft);
+}

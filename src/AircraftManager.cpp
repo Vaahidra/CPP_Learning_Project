@@ -2,6 +2,7 @@
 #include <utility>
 #include <numeric>
 #include <algorithm>
+#include "aircraftCrash.hpp"
 
 
 void AircraftManager::add(std::unique_ptr<Aircraft> aircraft)
@@ -9,6 +10,8 @@ void AircraftManager::add(std::unique_ptr<Aircraft> aircraft)
     assert(aircraft);
     aircrafts.emplace_back(std::move(aircraft));
 }
+
+
 
 bool AircraftManager::move()
 {   
@@ -39,5 +42,8 @@ unsigned AircraftManager::get_required_fuel() {
            [](unsigned x, const std::unique_ptr<Aircraft>& a){
                return a->is_low_on_fuel() && a->is_circling() ? a->get_missing_fuel() + x : x;
            });
+}
+void AircraftManager::display_crash_number() const {
+    std::cout << crash_count << " aircraft(s) have crashed.." << std::endl;
 }
 

@@ -31,4 +31,4 @@ constexpr unsigned int MAX_FUEL = 3000;
 constexpr unsigned int MIN_FUEL = 150;
 constexpr unsigned int NEEDED_FUEL = 200;
 constexpr unsigned FUEL_TANKER = 5'000;
-using AircraftCrash = std::runtime_error;
+//using AircraftCrash = std::runtime_error;

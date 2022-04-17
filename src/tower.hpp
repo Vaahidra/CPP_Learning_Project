@@ -35,4 +35,5 @@ public:
     WaypointQueue reserve_terminal(Aircraft& aircraft);
     WaypointQueue instruction_aux(Aircraft& aircraft);
     void ifReservedReleaseTerminal(Aircraft* aircraft);
+    void on_aircraft_crash(const Aircraft& aircraft);
 };

@@ -10,6 +10,8 @@ class AircraftManager : public GL::DynamicObject
 {
 private:
     std::vector<std::unique_ptr<Aircraft>> aircrafts;
+    unsigned crash_count = 0;
+
 public:
 
     void add(std::unique_ptr<Aircraft> aircraft);
@@ -27,11 +29,5 @@ public:
                   });
     }
 
-    void printAircrafts()
-    {
-        std::for_each(aircrafts.begin(), aircrafts.end(),
-                      [](std::unique_ptr<Aircraft>& aircft)
-                      { std::cout << "fuel level :" << aircft->getFuel() << std::endl; });
-        
-    }
+    void display_crash_number() const;
 };

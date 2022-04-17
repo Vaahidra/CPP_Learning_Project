@@ -1,8 +1,9 @@
 #include "aircraft.hpp"
 
 #include "GL/opengl_interface.hpp"
-
+#include "aircraftCrash.hpp"
 #include <cmath>
+
 
 void Aircraft::turn_to_waypoint()
 {
@@ -111,14 +112,15 @@ bool Aircraft::move()
         waypoints = control.get_instructions(*this);
     }
 
-    if (fuel == 0) {
-        if (fuel == 0){
+    if (fuel <= 0) {
+        
         if (this->has_terminal())
             this->releaseTerminal();
 
-        crash_animation(MediaPath { "explostion3.png" }); // N'affiche rien :(, je ne sais pas pourquoi
-        throw AircraftCrash { flight_number + "CRASHED ::: Out of Fuel" };
-    }
+        //crash_animation(MediaPath { "explostion3.png" }); // N'affiche rien :(, je ne sais pas pourquoi
+        throw AircraftCrash {flight_number, out_of_fuel};
+        //throw AircraftCrash { flight_number + "CRASHED ::: Out of Fuel" };
+    
     }
     if (!is_at_terminal)
     {
@@ -145,7 +147,9 @@ bool Aircraft::move()
             if (!landing_gear_deployed)
             {
                 using namespace std::string_literals;
-                throw AircraftCrash { flight_number + " crashed into the ground"s };
+                throw AircraftCrash {flight_number, bad_landing};
+                //throw AircraftCrash { flight_number + "bad landing" };
+
             }
         }
         else

@@ -47,7 +47,7 @@ void TowerSimulation::create_keystrokes()
     GL::keystrokes.emplace('a', []() { GL::increaseTick(); });
     GL::keystrokes.emplace('z', []() { GL::decreaseTick(); });
     GL::keystrokes.emplace('p', []() { GL::pause(); });
-
+    GL::keystrokes.emplace('m', [this]() { aircraft_manager.display_crash_number(); });
     for (auto i = 0; i < 8; i++) {
         GL::keystrokes.emplace('0'+i, [this, i]() { display_airline(i); });
     }

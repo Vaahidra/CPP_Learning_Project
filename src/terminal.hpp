@@ -54,4 +54,9 @@ public:
         }
         return true;
     }
+     void on_aircraft_crash(const Aircraft& aircraft) {
+        if (&aircraft == current_aircraft) {
+            current_aircraft = nullptr;
+        }
+    }
 };
