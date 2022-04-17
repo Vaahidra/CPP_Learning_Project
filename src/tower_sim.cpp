@@ -30,7 +30,12 @@ TowerSimulation::~TowerSimulation()
 {
     delete airport;
 }
-
+void TowerSimulation::display_airline(unsigned number) {
+    assert(number <= 7);
+    const std::string& airline = airlines[number];
+    const unsigned count = aircraft_manager.count_aircraft_on_airline(airline);
+    std::cout << count << " aircraft for the line : " << airline << std::endl;
+}
 void TowerSimulation::create_keystrokes() 
 {
     GL::keystrokes.emplace('x', []() { GL::exit_loop(); });
@@ -42,6 +47,10 @@ void TowerSimulation::create_keystrokes()
     GL::keystrokes.emplace('a', []() { GL::increaseTick(); });
     GL::keystrokes.emplace('z', []() { GL::decreaseTick(); });
     GL::keystrokes.emplace('p', []() { GL::pause(); });
+
+    for (auto i = 0; i < 8; i++) {
+        GL::keystrokes.emplace('0'+i, [this, i]() { display_airline(i); });
+    }
 }
 
 void TowerSimulation::display_help() const

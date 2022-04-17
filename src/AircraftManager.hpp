@@ -14,6 +14,7 @@ public:
 
     void add(std::unique_ptr<Aircraft> aircraft);
     bool move() override;
+    unsigned count_aircraft_on_airline(const std::string_view&);
 };
 
 

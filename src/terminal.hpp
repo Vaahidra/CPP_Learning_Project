@@ -38,7 +38,7 @@ public:
             current_aircraft = nullptr;
         }
     }
-
+    void releaseTerminal() { current_aircraft = nullptr; }
     bool move() override
     {
         if (in_use() && is_servicing())

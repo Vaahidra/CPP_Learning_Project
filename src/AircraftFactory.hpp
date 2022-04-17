@@ -3,10 +3,12 @@
 #include "aircraft_types.hpp"
 #include "AircraftManager.hpp"
 
+
+inline const std::string airlines[8] = { "AF", "LH", "EY", "DL", "KL", "BA", "AY", "EY" };
 class AircraftFactory
 {
 private:
-    const std::string airlines[8] = { "AF", "LH", "EY", "DL", "KL", "BA", "AY", "EY" };
+    
     std::vector<std::string> number_used;
     AircraftType* aircraft_types[3] {};
 

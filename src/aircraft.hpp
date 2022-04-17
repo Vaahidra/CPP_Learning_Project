@@ -21,7 +21,8 @@ private:
     bool landing_gear_deployed = false; // is the landing gear deployed?
     bool is_at_terminal        = false;
     bool is_service_done       = false;
-
+    //task2 | Objectif 2
+    unsigned int fuel;
 
     // turn the aircraft to arrive at the next waypoint
     // try to facilitate reaching the waypoint after the next by facing the
@@ -57,6 +58,7 @@ public:
         control { control_ }
     {
         speed.cap_length(max_speed());
+        fuel = (rand() % (MAX_FUEL + 1 - MIN_FUEL)) + 150;
     }
 
     const std::string& get_flight_num() const { return flight_number; }
@@ -64,6 +66,11 @@ public:
 
     void display() const override;
     bool move() override;
+    bool has_terminal()const;
+    bool is_circling() const;
+    void releaseTerminal();
+    void crash_animation( const MediaPath& sprite) const;
 
     friend class Tower;
+    friend class AircraftManager;
 };
