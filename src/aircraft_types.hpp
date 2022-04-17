@@ -20,5 +20,6 @@ struct AircraftType
         max_accel { max_accel_ },
         texture { new img::Image { sprite.get_full_path() }, num_tiles }
     {}
+    
 };
 

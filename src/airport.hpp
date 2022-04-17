@@ -2,6 +2,7 @@
 
 #include "GL/displayable.hpp"
 #include "GL/dynamic_object.hpp"
+#include "AircraftManager.hpp"
 #include "GL/texture.hpp"
 #include "airport_type.hpp"
 #include "geometry.hpp"
@@ -19,8 +20,11 @@ private:
     const Point3D pos;
     const GL::Texture2D texture;
     std::vector<Terminal> terminals;
+    AircraftManager& manager;
     Tower tower;
-
+    unsigned fuel_stock = 0;
+    unsigned ordered_fuel = 0;
+    double next_refill_time = 0;
     // reserve a terminal
     // if a terminal is free, return
     // 1. a sequence of waypoints reaching the terminal from the runway-end and
@@ -42,7 +46,18 @@ private:
             return { {}, 0u };
         }
     }
-
+    void refuel_all() {
+        if (next_refill_time <= 0) {
+            const auto old = ordered_fuel;
+            fuel_stock += ordered_fuel;
+            ordered_fuel = std::min(FUEL_TANKER, manager.get_required_fuel());
+            next_refill_time = 100;
+            std::cout << "Received : " << old << " | Stock : " << fuel_stock << " | Ordered : " << ordered_fuel << std::endl;
+        } else {
+            --next_refill_time;
+        }
+        std::for_each(terminals.begin(), terminals.end(), [this](Terminal& t){t.refill_aircraft_if_needed(fuel_stock);});
+    }
     WaypointQueue start_path(const size_t terminal_number)
     {
         return type.terminal_to_air(pos, 0, terminal_number);
@@ -51,12 +66,17 @@ private:
     Terminal& get_terminal(const size_t terminal_num) { return terminals.at(terminal_num); }
 
 public:
-    Airport(const AirportType& type_, const Point3D& pos_, const img::Image* image, const float z_ = 1.0f) :
+     ~Airport() override = default;
+    Airport(const Airport&) = delete;
+    Airport& operator=(const Airport&) = delete;
+    Airport(const AirportType& type_, const Point3D& pos_, const img::Image* image, AircraftManager& _manager,
+            const float z_ = 1.0f) :
         GL::Displayable { z_ },
         type { type_ },
         pos { pos_ },
         texture { image },
         terminals { type.create_terminals() },
+        manager {_manager},
         tower { *this }
     {}
 
@@ -70,6 +90,7 @@ public:
         {
             t.move();
         }
+        refuel_all();
         return true;
     }
 

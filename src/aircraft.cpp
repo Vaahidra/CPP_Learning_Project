@@ -24,7 +24,19 @@ void Aircraft::turn(Point3D direction)
 {
     (speed += direction.cap_length(type.max_accel)).cap_length(max_speed());
 }
-
+void Aircraft::refill(unsigned int& fuel_stock) {
+    const auto needed = get_missing_fuel();
+    if (fuel_stock == 0) return;
+    if (fuel_stock < needed) {
+//        std::cout << "Refuelling " << fuel_stock << ". Aircraft not full." << std::endl;
+        fuel += fuel_stock;
+        fuel_stock = 0;
+    } else {
+//        std::cout << "Refuelling " << needed << ". Aircraft full." << std::endl;
+        fuel += needed;
+        fuel_stock -= needed;
+    }
+}
 unsigned int Aircraft::get_speed_octant() const
 {
     const float speed_len = speed.length();
@@ -152,6 +164,7 @@ bool Aircraft::move()
     }
     return true;
 }
+
 //task2 | Objectif 2 | B.1
 bool Aircraft::has_terminal () const
 {
@@ -175,4 +188,9 @@ void Aircraft::crash_animation(const MediaPath& sprite) const
 void Aircraft::display() const
 {
     type.texture.draw(project_2D(pos), { PLANE_TEXTURE_DIM, PLANE_TEXTURE_DIM }, get_speed_octant());
+}
+//Task 2 | Objectif 2 D-1
+bool Aircraft::is_low_on_fuel() const
+{
+    return fuel < NEEDED_FUEL;
 }

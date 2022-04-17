@@ -12,6 +12,7 @@
 
 class Aircraft : public GL::Displayable, public GL::DynamicObject
 {
+   
 private:
     const AircraftType& type;
     const std::string flight_number;
@@ -48,6 +49,7 @@ private:
     Aircraft& operator=(const Aircraft&) = delete;
 
 public:
+
     Aircraft(const AircraftType& type_, const std::string_view& flight_number_, const Point3D& pos_,
              const Point3D& speed_, Tower& control_) :
         GL::Displayable { pos_.x() + pos_.y() },
@@ -63,14 +65,16 @@ public:
 
     const std::string& get_flight_num() const { return flight_number; }
     float distance_to(const Point3D& p) const { return pos.distance_to(p); }
-
+    int getFuel() const { return fuel; }
     void display() const override;
     bool move() override;
     bool has_terminal()const;
     bool is_circling() const;
     void releaseTerminal();
     void crash_animation( const MediaPath& sprite) const;
-
+    unsigned get_missing_fuel() const { return MAX_FUEL - (unsigned)std::ceil(fuel); }
+    bool is_low_on_fuel() const;
+    void refill(unsigned&);
     friend class Tower;
     friend class AircraftManager;
 };

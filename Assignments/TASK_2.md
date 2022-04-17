@@ -17,7 +17,10 @@ Remplacez votre boucle avec un appel à `std::remove_if`.
 
 2. Pour des raisons de statistiques, on aimerait bien être capable de compter tous les avions de chaque airline.
 A cette fin, rajoutez des callbacks sur les touches `0`..`7` de manière à ce que le nombre d'avions appartenant à `airlines[x]` soit affiché en appuyant sur `x`.
+> La classe pouvant compter les avions appartenant à une ligne est AircraftManager. J'utilise std::count_if pour compter
+
 Rendez-vous compte de quelle classe peut acquérir cet information. Utilisez la bonne fonction de `<algorithm>` pour obtenir le résultat.
+> les avions dont la ligne commence par le code de l'airline
 
 ### C - Relooking de Point3D
 
@@ -44,6 +47,7 @@ La notation tiendra compte de votre utilisation judicieuse de la librairie stand
 Ajoutez un attribut `fuel` à `Aircraft`, et initialisez-le à la création de chaque avion avec une valeur aléatoire comprise entre `150` et `3'000`.\
 Décrémentez cette valeur dans `Aircraft::update` si l'avion est en vol.\
 Lorsque cette valeur atteint 0, affichez un message dans la console pour indiquer le crash, et faites en sorte que l'avion soit supprimé du manager.
+> Suppression -> retourner `true` dans move
 
 N'hésitez pas à adapter la borne `150` - `3'000`, de manière à ce que des avions se crashent de temps en temps.
 
