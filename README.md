@@ -11,6 +11,7 @@ The following software is necessary to compile and run the program
 
 #### Linux
 
+
 Make sure your gcc version is 9 or above.
 If it's not, and your package manager doesn't propose it, then you may need to upgrade your system first.
 

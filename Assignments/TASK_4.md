@@ -2,6 +2,7 @@
 
 ### Objectif 1 - Devant ou derrière ? 
 
+
 La fonction `Aircraft::add_waypoint` permet de rajouter une étape au début ou à la fin du parcours de l'avion.
 Pour distinguer ces deux cas, elle prend un argument booléen `front` (on parle alors de "flag") qui est évalué à l'exécution.
 Votre objectif consistera à modifier cette fonction afin d'économiser cette évaluation.  
